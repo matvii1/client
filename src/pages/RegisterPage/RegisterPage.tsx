@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import PasswordInput from '~/components/Inputs/PasswordInput'
 import TextInput from '~/components/Inputs/TextInput'
-import { FormValues } from '~/types/Form'
+import { IFormValues } from '~/types/Form'
 import AuthContainer from '../AuthContainers/AuthContainer'
 import AuthInnerContainer from '../AuthContainers/AuthInnerContainer'
 import {
@@ -21,9 +21,9 @@ export default function RegisterPage() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<FormValues>()
+  } = useForm<IFormValues>()
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit: SubmitHandler<IFormValues> = (data) => {
     console.log(data)
 
     if (!Object.keys(errors).length) {
@@ -94,10 +94,7 @@ export default function RegisterPage() {
               Register
             </Button>
             <HaveAccountMessage>
-              <Typography
-                display="inline"
-                fontSize= 'smallMessage'
-              >
+              <Typography display="inline" fontSize="smallMessage">
                 Already have an account?{' '}
               </Typography>
               <Link to="/login" className="sign-in-link">

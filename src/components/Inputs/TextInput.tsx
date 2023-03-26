@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material'
 import { UseFormRegister } from 'react-hook-form'
-import { getValidationFields } from '~/helpers/getValidationFields'
 import { FormValues, RegisterName } from '~/types/Form'
+import { getValidationFields } from '~/utils/getValidationFields'
 import { inputStyles } from './StyledInput'
 
 type Props = {

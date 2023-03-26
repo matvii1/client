@@ -1,1 +1,1 @@
-export const styled = 1;
+export const gridContainerStyles = { marginTop: '34px' }

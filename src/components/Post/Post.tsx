@@ -13,75 +13,94 @@ import {
 } from '@mui/material'
 import { blueGrey } from '@mui/material/colors'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { IconsBox, iconsStyles } from './StyledPost'
-import TagsList from './TagsList'
+import { IPost } from '~/types/Post'
+import LinkToPost from './LinkToPost'
+import TagsList from './PostTagsList'
+import { CardContentInner, IconsBox, iconsStyles } from './StyledPost'
 
-export default function Post() {
+type Props = {
+  post: IPost
+}
+
+export default function Post({ post }: Props) {
+  const { title, viewsCount, comments, tags, text, userId, createdAt, _id } =
+    post
+  const { name, lastName } = userId
   const [isEditShown, setIsEditShown] = useState(false)
 
   function handleOnMouseOver() {
     setIsEditShown(true)
   }
+
   function handleOnMouseLeave() {
     setIsEditShown(false)
   }
+
+  const avatarPreview = name[0].toUpperCase()
 
   return (
     <Card
       variant="outlined"
       sx={{ position: 'relative' }}
       onMouseEnter={handleOnMouseOver}
-      onMouseLeave={handleOnMouseLeave}>
-      <Box sx={{ ...iconsStyles, opacity: isEditShown ? '100%' : '0' }}>
+      onMouseLeave={handleOnMouseLeave}
+    >
+      <Box
+        sx={{
+          ...iconsStyles,
+          opacity: isEditShown ? '100%' : '0',
+        }}
+      >
         <EditIcon />
         <CloseRoundedIcon sx={{ fontSize: '1.6rem' }} />
       </Box>
       <Box>
-        <Link to="/posts/1">
+        <LinkToPost id={_id}>
           <img src="/williamsburg_bridge.jpeg" className="post__img" />
-        </Link>
+        </LinkToPost>
       </Box>
-      <CardHeader
-        avatar={
-          <Avatar
-            sx={{
-              fontSize: '0.8rem',
-              width: '40px',
-              height: '40px',
-              bgcolor: blueGrey[500],
-            }}
-            aria-label="recipe">
-            M
-          </Avatar>
-        }
-        title="Matvii"
-        subheader="September 14, 2016"
-      />
+      <LinkToPost id={_id}>
+        <CardHeader
+          avatar={
+            <Avatar
+              sx={{
+                fontSize: '0.8rem',
+                width: '40px',
+                height: '40px',
+                bgcolor: blueGrey[500],
+              }}
+            >
+              {avatarPreview}
+            </Avatar>
+          }
+          title={name}
+          subheader={createdAt}
+        />
+      </LinkToPost>
       <CardContent>
-        <Box sx={{ paddingLeft: '2rem', maxWidth: "95%" }}>
-          <Link to="/posts/1">
+        <CardContentInner>
+          <LinkToPost id={_id}>
             <Typography variant="h2" fontWeight="700">
-              Roast the code 1# | Rock Paper Scissors
+              {title}
             </Typography>
-          </Link>
+          </LinkToPost>
 
-          <TagsList />
+          {tags && !!tags.length && <TagsList tags={tags} />}
 
           <Grid container columnGap={3} alignItems="center" mt={3}>
             <IconsBox>
               <VisibilityIcon color="action" sx={{ fontSize: 'smallIcon' }} />
-              150
+              {viewsCount}
             </IconsBox>
             <IconsBox>
               <ChatBubbleOutlineIcon
                 color="action"
                 sx={{ fontSize: 'smallIcon' }}
               />
-              200
+              {comments || 10}
             </IconsBox>
           </Grid>
-        </Box>
+        </CardContentInner>
       </CardContent>
     </Card>
   )

@@ -3,8 +3,8 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { FormHelperText, InputAdornment, TextField } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
 import { UseFormRegister } from 'react-hook-form'
-import { getValidationFields } from '~/helpers/getValidationFields'
 import { FormValues, RegisterName } from '~/types/Form'
+import { getValidationFields } from '~/utils/getValidationFields'
 import { eyeIconStyles, formHelperStyles, inputStyles } from './StyledInput'
 
 type Props = {

@@ -1,6 +1,6 @@
 export type RegisterName = 'password' | 'lastName' | 'firstName' | 'email'
 
-export type FormValues = {
+export interface IFormValues {
   firstName: string
   lastName: string
   password: string

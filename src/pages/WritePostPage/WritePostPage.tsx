@@ -66,6 +66,10 @@ export default function WritePostPage() {
             onChange={handleOnChange}
             options={options}
           />
+
+          <Button variant="contained" sx={{ marginTop: '1rem' }}>
+            Submit
+          </Button>
         </Box>
       </Paper>
     </Container>

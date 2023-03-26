@@ -2,16 +2,17 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded'
 import { Button, Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import PasswordInput from '~/components/Inputs/PasswordInput'
 import TextInput from '~/components/Inputs/TextInput'
-import { FormValues } from '~/types/Form'
+import { useAppDispatch } from '~/store/hooks/hook'
+import { setAuth } from '~/store/slices/auth-slice'
+import { IFormValues } from '~/types/Form'
 import AuthContainer from '../AuthContainers/AuthContainer'
 import AuthInnerContainer from '../AuthContainers/AuthInnerContainer'
 import {
   FormTitle,
   FormWrapper,
-  HaveAccountMessage,
   StyledFormControl,
 } from '../RegisterPage/StyledRegister'
 import { NoAccountMessage } from './StyledLogin'
@@ -22,10 +23,14 @@ export default function LoginPage() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<FormValues>()
+  } = useForm<IFormValues>()
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data)
+  const onSubmit: SubmitHandler<IFormValues> = (data) => {
+    dispatch(setAuth(true))
+    console.log('logged')
+    navigate('/')
 
     if (!Object.keys(errors).length) {
       reset()
@@ -79,7 +84,7 @@ export default function LoginPage() {
           </form>
 
           <NoAccountMessage>
-            <Typography display="inline" fontSize='smallMessage'>
+            <Typography display="inline" fontSize="smallMessage">
               Don`t have an account yet?{' '}
             </Typography>
             <Link to="/register" className="sign-in-link">

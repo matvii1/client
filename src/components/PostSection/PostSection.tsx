@@ -2,14 +2,8 @@ import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import * as React from 'react'
-import Post from '../Post/Post'
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  }
-}
+import PostList from './PostList'
+import { TabsWrapper } from './StyledPostSection'
 
 export default function PostSection() {
   const [value, setValue] = React.useState(0)
@@ -23,12 +17,7 @@ export default function PostSection() {
 
   return (
     <Box>
-      <Box
-        sx={{
-          borderBottom: 1,
-          borderColor: 'divider',
-          marginBottom: '2rem',
-        }}>
+      <TabsWrapper>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -40,12 +29,12 @@ export default function PostSection() {
             sx={{ textTransform: 'none' }}
           />
         </Tabs>
-      </Box>
+      </TabsWrapper>
       <TabPanel value={value} index={0}>
-        <Post />
+        <PostList />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Post />
+        <PostList />
       </TabPanel>
     </Box>
   )
@@ -55,6 +44,13 @@ type Props = {
   children: React.ReactNode
   index: number
   value: number
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  }
 }
 
 function TabPanel(props: Props) {

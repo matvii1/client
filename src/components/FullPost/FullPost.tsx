@@ -9,12 +9,15 @@ import {
   Grid,
   Typography,
 } from '@mui/material'
-import { blueGrey } from '@mui/material/colors'
+import { useAppSelector } from '~/store/hooks/hook'
+import { RootState } from '~/store/store'
 import FullComments from '../FullComments/FullComments'
+import PostTagsList from '../Post/PostTagsList'
 import { IconsBox } from '../Post/StyledPost'
-import TagsList from '../Post/TagsList'
-import { FullPostText } from './StyledFullPost'
+import { avatarStyles, FullPostText } from './StyledFullPost'
 export default function FullPost() {
+  const { tags } = useAppSelector((state: RootState) => state.tags)
+
   return (
     <>
       <Card variant="outlined" sx={{ position: 'relative' }}>
@@ -22,18 +25,7 @@ export default function FullPost() {
           <img src="/williamsburg_bridge.jpeg" className="post__img" />
         </Box>
         <CardHeader
-          avatar={
-            <Avatar
-              sx={{
-                fontSize: '0.8rem',
-                width: '30px',
-                height: '30px',
-                bgcolor: blueGrey[500],
-              }}
-              aria-label="recipe">
-              M
-            </Avatar>
-          }
+          avatar={<Avatar sx={avatarStyles}>M</Avatar>}
           title="Matvii"
           subheader="September 14, 2016"
         />
@@ -42,7 +34,7 @@ export default function FullPost() {
             <Typography variant="h2" fontWeight="700">
               Roast the code 1# | Rock Paper Scissors
             </Typography>
-            <TagsList />
+            {tags && !!tags.length && <PostTagsList tags={tags} />}
 
             <FullPostText>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Non totam

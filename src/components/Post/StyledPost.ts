@@ -38,6 +38,9 @@ export const iconsStyles = {
   transition: 'opacity 0.1s ease',
 }
 
-export const ViewsBox = styled(Box)(({ theme }) => ({}))
+export const CardContentInner = styled(Box)(({ theme }) => ({
+  paddingLeft: '2rem',
+  maxWidth: '90%',
+}))
 
 export const ChatBox = styled(Box)(({ theme }) => ({}))

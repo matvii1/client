@@ -1,11 +1,13 @@
 import { Button, Grid, Paper } from '@mui/material'
 import { Link } from 'react-router-dom'
 import Container from '~/components/Container/Container'
-import { isAuth } from '~/routes'
+import { useAppSelector } from '~/store/hooks/hook'
+import { RootState } from '~/store/store'
 import { BoxButtons, Logo } from './StyledHeader'
 
 export default function Header() {
   function handleLogOut() {}
+  const isAuth = useAppSelector((state: RootState) => state.auth.value)
 
   return (
     <Paper sx={{ borderRadius: 0 }}>
