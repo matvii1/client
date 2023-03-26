@@ -3,20 +3,17 @@ import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '~/App'
 import { fetchOnePost } from '~/store/slices/post-slice'
-import Container from '../Container/Container'
-import FullPost from '../FullPost/FullPost'
-import GoBack from '../GoBack/GoBack'
+import Container from '../../components/Container/Container'
+import FullPost from '../../components/FullPost/FullPost'
+import GoBack from '../../components/GoBack/GoBack'
 import { gridContainerStyles } from './StyledFullPostPage'
 
 export default function FullPostPage() {
   const { postId } = useParams()
   const dispatch = useAppDispatch()
-  const { currentPost, currentPostStatus } = useAppSelector(
-    (state) => state.posts
-  )
-
-  const isCurrentPostLoading = currentPostStatus === 'loading'
+  const { currentPostStatus } = useAppSelector((state) => state.posts)
   const isCurrentPostFailed = currentPostStatus === 'failed'
+  const isCurrentPostLoading = currentPostStatus === 'loading'
 
   useEffect(() => {
     if (postId) {
@@ -24,8 +21,6 @@ export default function FullPostPage() {
     }
   }, [])
 
-  console.log(currentPost);
-  
   return (
     <Container>
       <GoBack />
@@ -33,10 +28,7 @@ export default function FullPostPage() {
       <Grid container sx={gridContainerStyles}>
         <Grid item xs={12}>
           {!isCurrentPostFailed ? (
-            <FullPost
-            // isCurrentPostLoading={isCurrentPostLoading}
-            // currentPost={currentPost}
-             />
+            <FullPost />
           ) : (
             <Typography>Failed to load</Typography>
           )}

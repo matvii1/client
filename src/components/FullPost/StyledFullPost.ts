@@ -10,5 +10,5 @@ export const avatarStyles = {
   fontSize: '0.8rem',
   width: '30px',
   height: '30px',
-  bgcolor: blueGrey[500],
+  backgroundColor: blueGrey[500],
 }

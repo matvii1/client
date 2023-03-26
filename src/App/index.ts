@@ -1,4 +1,3 @@
-import React from 'react'
 import FailedToLoad from '~/pages/FailedToLoad/FailedToLoad'
 import Main from '../components/Container/Main'
 import Footer from '../components/Footer/Footer'
@@ -9,7 +8,6 @@ import { fetchPosts } from '../store/slices/post-slice'
 import { Body } from './StyledApp'
 
 export {
-  React,
   FailedToLoad,
   Main,
   Footer,

@@ -1,13 +1,13 @@
 import { TextField } from '@mui/material'
 import { UseFormRegister } from 'react-hook-form'
-import { FormValues, RegisterName } from '~/types/Form'
+import { IFormValues, RegisterName } from '~/types/Form'
 import { getValidationFields } from '~/utils/getValidationFields'
 import { inputStyles } from './StyledInput'
 
 type Props = {
   registerName: RegisterName
   label: string
-  register: UseFormRegister<FormValues>
+  register: UseFormRegister<IFormValues>
   error: boolean
   errorMessage: string
 }

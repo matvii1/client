@@ -19,7 +19,7 @@ export default function SkeletonTags() {
                   }}
                 />
 
-                <Skeleton sx={{ width: '100%' }} animation="wave"></Skeleton>
+                <Skeleton sx={{ width: '100%' }} animation="wave" />
               </SingleTagWrap>
             )
           })}

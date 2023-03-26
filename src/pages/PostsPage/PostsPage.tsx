@@ -1,5 +1,6 @@
 import { Box, Grid } from '@mui/material'
 import { useEffect } from 'react'
+import { fetchPosts } from '~/App'
 import Comments from '~/components/Comments/Comments'
 import Container from '~/components/Container/Container'
 import PageTags from '~/components/PageTags/PageTags'
@@ -15,6 +16,7 @@ export default function PostsPage() {
   const areTagsFailedToLoad = status === 'failed'
 
   useEffect(() => {
+    dispatch(fetchPosts())
     dispatch(getTags())
   }, [])
 
@@ -28,7 +30,11 @@ export default function PostsPage() {
           <RightBar item xs={12} md={4}>
             <RightBarBox>
               <Grid item xs={12} sm={6} md={12}>
-                <PageTags tags={tags} areTagsLoading={areTagsLoading} />
+                <PageTags
+                  tags={tags}
+                  areTagsLoading={areTagsLoading}
+                  areTagsFailedToLoad={areTagsFailedToLoad}
+                />
               </Grid>
               <Grid item xs={12} sm={6} md={12}>
                 <Comments />

@@ -1,5 +1,5 @@
 import { Navigate, useRoutes } from 'react-router-dom'
-import FullPostPage from './components/FullPostPage/FullPostPage'
+import FullPostPage from './pages/FullPostPage/FullPostPage'
 import LoginPage from './pages/LoginPage/LoginPage'
 import PostsPage from './pages/PostsPage/PostsPage'
 import RegisterPage from './pages/RegisterPage/RegisterPage'

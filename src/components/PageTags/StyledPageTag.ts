@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles'
 export const TagTitle = styled(Typography)(() => ({
   fontWeight: 500,
   fontSize: '1.2rem',
+  marginBottom: '0.45rem'
 }))
 
 export const TagsWrap = styled(Box)(() => ({

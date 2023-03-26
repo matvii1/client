@@ -14,6 +14,7 @@ import {
 import { blueGrey } from '@mui/material/colors'
 import { useState } from 'react'
 import { IPost } from '~/types/Post'
+import { isImage } from '~/utils/isImage'
 import LinkToPost from './LinkToPost'
 import TagsList from './PostTagsList'
 import { CardContentInner, IconsBox, iconsStyles } from './StyledPost'
@@ -25,7 +26,10 @@ type Props = {
 export default function Post({ post }: Props) {
   const { title, viewsCount, comments, tags, text, userId, createdAt, _id } =
     post
-  const { name, lastName } = userId
+
+  console.log(post)
+
+  const { name, imageUrl } = userId
   const [isEditShown, setIsEditShown] = useState(false)
 
   function handleOnMouseOver() {
@@ -55,9 +59,11 @@ export default function Post({ post }: Props) {
         <CloseRoundedIcon sx={{ fontSize: '1.6rem' }} />
       </Box>
       <Box>
-        <LinkToPost id={_id}>
-          <img src="/williamsburg_bridge.jpeg" className="post__img" />
-        </LinkToPost>
+        {imageUrl && isImage(imageUrl) && (
+          <LinkToPost id={_id}>
+            <img src="/williamsburg_bridge.jpeg" className="post__img" />
+          </LinkToPost>
+        )}
       </Box>
       <LinkToPost id={_id}>
         <CardHeader

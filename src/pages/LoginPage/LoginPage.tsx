@@ -5,8 +5,8 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import PasswordInput from '~/components/Inputs/PasswordInput'
 import TextInput from '~/components/Inputs/TextInput'
-import { useAppDispatch } from '~/store/hooks/hook'
-import { setAuth } from '~/store/slices/auth-slice'
+import { useAppDispatch, useAppSelector } from '~/store/hooks/hook'
+import { fetchAuth } from '~/store/slices/auth-slice'
 import { IFormValues } from '~/types/Form'
 import AuthContainer from '../AuthContainers/AuthContainer'
 import AuthInnerContainer from '../AuthContainers/AuthInnerContainer'
@@ -23,18 +23,25 @@ export default function LoginPage() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<IFormValues>()
+  } = useForm<IFormValues>({
+    defaultValues: {
+      email: 'matviy.kharchenko@gmail.com',
+      password: '123123'
+    }
+  })
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const { data } = useAppSelector(state => state.auth)
+  console.log(data);
 
-  const onSubmit: SubmitHandler<IFormValues> = (data) => {
-    dispatch(setAuth(true))
-    console.log('logged')
-    navigate('/')
+  const onSubmit: SubmitHandler<IFormValues> = (formData) => {
 
-    if (!Object.keys(errors).length) {
+      dispatch(fetchAuth(formData))
+
+      console.log({data, formData});
+      // navigate('/')
+
       reset()
-    }
   }
 
   return (
@@ -78,7 +85,8 @@ export default function LoginPage() {
               type="submit"
               variant="contained"
               fullWidth
-              sx={{ marginTop: 3 }}>
+              sx={{ marginTop: 3 }}
+            >
               Log in
             </Button>
           </form>
