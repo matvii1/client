@@ -27,8 +27,6 @@ export default function Post({ post }: Props) {
   const { title, viewsCount, comments, tags, text, userId, createdAt, _id } =
     post
 
-  console.log(post)
-
   const { name, imageUrl } = userId
   const [isEditShown, setIsEditShown] = useState(false)
 

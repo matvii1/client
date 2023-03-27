@@ -3,14 +3,14 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { FormHelperText, InputAdornment, TextField } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
 import { UseFormRegister } from 'react-hook-form'
-import { FormValues, RegisterName } from '~/types/Form'
+import { IFormValues, RegisterName } from '~/types/Form'
 import { getValidationFields } from '~/utils/getValidationFields'
 import { eyeIconStyles, formHelperStyles, inputStyles } from './StyledInput'
 
 type Props = {
   registerName: RegisterName
   label: string
-  register: UseFormRegister<FormValues>
+  register: UseFormRegister<IFormValues>
   error: boolean
   errorMessage: string
 }
@@ -50,18 +50,14 @@ export default function PasswordInput({
         sx={inputStyles}
         helperText={errorMessage}
         {...register(registerName, validationField)}
-        inputProps={{
-          style: {
-            padding: '0.7rem',
-          },
-        }}
         onChange={handleOnChange}
         InputProps={{
           endAdornment: (
             <InputAdornment
               position="end"
               onClick={handleShowPassword}
-              sx={eyeIconStyles}>
+              sx={eyeIconStyles}
+            >
               {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
             </InputAdornment>
           ),

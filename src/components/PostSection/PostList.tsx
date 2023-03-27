@@ -1,4 +1,4 @@
-import { useAppSelector } from '~/store/hooks/hook'
+import { useAppSelector } from '~/store/hooks/redux'
 import { RootState } from '~/store/store'
 import Post from '../Post/Post'
 import SkeletonPost from '../Post/SkeletonPost'

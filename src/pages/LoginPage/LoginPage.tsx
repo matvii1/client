@@ -1,12 +1,14 @@
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded'
 import { Button, Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import axios from '~/api/axios'
 import PasswordInput from '~/components/Inputs/PasswordInput'
 import TextInput from '~/components/Inputs/TextInput'
-import { useAppDispatch, useAppSelector } from '~/store/hooks/hook'
-import { fetchAuth } from '~/store/slices/auth-slice'
+import { useAppDispatch, useAppSelector } from '~/store/hooks/redux'
+import { setAuth } from '~/store/slices/auth-slice'
 import { IFormValues } from '~/types/Form'
 import AuthContainer from '../AuthContainers/AuthContainer'
 import AuthInnerContainer from '../AuthContainers/AuthInnerContainer'
@@ -18,37 +20,51 @@ import {
 import { NoAccountMessage } from './StyledLogin'
 
 export default function LoginPage() {
+  // TODO: add validation if login is not successful
+  const [isSuccessLogin, setIsSuccessLogin] = useState<boolean | null>(null)
+  const [isErrorLogin, setIsErrorLogin] = useState<boolean | null>(null)
+  // TODO: add validation if login is not successful
+
+  const { isAuth } = useAppSelector((state) => state.auth)
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<IFormValues>({
-    defaultValues: {
-      email: 'matviy.kharchenko@gmail.com',
-      password: '123123'
-    }
-  })
+  } = useForm<IFormValues>()
+
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const { data } = useAppSelector(state => state.auth)
-  console.log(data);
 
-  const onSubmit: SubmitHandler<IFormValues> = (formData) => {
+  const onSubmit: SubmitHandler<IFormValues> = async (formData) => {
+    try {
+      const { data: res } = await axios.post('/auth/login', formData)
 
-      dispatch(fetchAuth(formData))
-
-      console.log({data, formData});
-      // navigate('/')
+      if (res.token) {
+        dispatch(setAuth(true))
+        setIsSuccessLogin(true)
+        window.localStorage.setItem('token', res.token)
+        navigate('/')
+      }
 
       reset()
+    } catch (error) {
+      setIsErrorLogin(true)
+    } finally {
+    }
+  }
+
+  console.log({ isAuth })
+
+  if (isAuth) {
+    return <Navigate to="/" />
   }
 
   return (
     <AuthContainer>
       <AuthInnerContainer>
         <StyledFormControl>
-          <form action="" onSubmit={handleSubmit(onSubmit)} noValidate>
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
             <FormTitle variant="h2">Log in</FormTitle>
             <Grid container justifyContent="center">
               <AccountCircleRoundedIcon

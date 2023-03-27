@@ -1,53 +1,23 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from '~/api/axios'
-import { Status } from '~/types/Status'
-
-interface Options {
-  email: string
-  password: string
-}
-
-export const fetchAuth = createAsyncThunk(
-  'fetch/auth',
-  async (options: Options) => {
-    try {
-      const { data } = await axios.post('/auth/login', options)
-
-      return data
-    } catch (error: any) {
-      console.log(error.response.data)
-    }
-  }
-)
+import { createSlice } from '@reduxjs/toolkit'
 
 interface InitialState {
-  value: boolean
-  data: string | null
-  status: Status
+  isAuth: boolean
 }
 
 const initialState: InitialState = {
-  value: false,
-  data: null,
-  status: 'loading',
+  isAuth: false,
 }
 
 const AuthSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(fetchAuth.pending, (state) => {
-      state.status = 'loading'
-    }),
-      builder.addCase(fetchAuth.fulfilled, (state, action) => {
-        state.status = 'succeed'
-        state.data = action.payload
-      }),
-      builder.addCase(fetchAuth.rejected, (state) => {
-        state.status = 'failed'
-      })
+  reducers: {
+    setAuth: (state, action) => {
+      state.isAuth = action.payload
+    },
   },
 })
+
+export const { setAuth } = AuthSlice.actions
 
 export default AuthSlice.reducer

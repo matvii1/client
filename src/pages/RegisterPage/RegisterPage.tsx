@@ -2,7 +2,9 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded'
 import { Button, Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { toast, Toaster } from 'react-hot-toast'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from '~/api/axios'
 import PasswordInput from '~/components/Inputs/PasswordInput'
 import TextInput from '~/components/Inputs/TextInput'
 import { IFormValues } from '~/types/Form'
@@ -15,6 +17,18 @@ import {
   StyledFormControl,
 } from './StyledRegister'
 
+function wait(delay: number, type: 'res' | 'rej') {
+  return new Promise((res, rej) => {
+    if (type === 'res') {
+      return setTimeout(res, delay * 1000)
+    }
+
+    if (type === 'rej') {
+      return setTimeout(rej, delay * 1000)
+    }
+  })
+}
+
 export default function RegisterPage() {
   const {
     register,
@@ -22,20 +36,43 @@ export default function RegisterPage() {
     formState: { errors },
     reset,
   } = useForm<IFormValues>()
+  const navigate = useNavigate()
 
-  const onSubmit: SubmitHandler<IFormValues> = (data) => {
-    console.log(data)
+  const onSubmit: SubmitHandler<IFormValues> = async (formData) => {
+    const promise = wait(1, 'res').then(() => {
+      return axios.post('/auth/register', {
+        ...formData,
+        name: formData.firstName,
+      })
+    })
 
-    if (!Object.keys(errors).length) {
-      reset()
+    toast.promise(promise, {
+      loading: 'Loading...',
+      success: 'User has been created \nRedirecting...',
+      error: 'Whoops.. Something went wrong',
+    })
+
+    console.log(promise)
+    const { data: res }: any = await promise
+    console.log(res)
+
+    if (res.token) {
+      window.localStorage.setItem('token', res.token)
+
+      setTimeout(() => {
+        navigate('/login')
+      }, 2000)
     }
+
+    reset()
   }
 
   return (
     <AuthContainer>
+      <Toaster />
       <AuthInnerContainer>
         <StyledFormControl>
-          <form action="" onSubmit={handleSubmit(onSubmit)} noValidate>
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
             <FormTitle variant="h2">Register</FormTitle>
             <Grid container justifyContent="center">
               <AccountCircleRoundedIcon
@@ -90,7 +127,8 @@ export default function RegisterPage() {
               type="submit"
               variant="contained"
               fullWidth
-              sx={{ marginTop: 3 }}>
+              sx={{ marginTop: 3 }}
+            >
               Register
             </Button>
             <HaveAccountMessage>

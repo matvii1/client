@@ -1,3 +1,8 @@
 .MuiTextField-root > .MuiFormLabel-root.Mui-focused {
-  top: 0;
+  top: 0px;
+}
+
+.css-1ogybul-MuiFormControl-root-MuiTextField-root label {
+  top: 0!important;
+  font-size: 0.95rem;
 }

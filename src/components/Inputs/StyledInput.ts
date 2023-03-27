@@ -13,12 +13,6 @@ export const formHelperStyles = {
 
 export const inputStyles = {
   '& label': {
-    position: 'absolute',
-    top: -4,
-    fontSize: '1rem',
-
-    '&.Mui-focused': {
-      marginLeft: 0,
-    },
+    fontSize: '0.95rem',
   },
 }

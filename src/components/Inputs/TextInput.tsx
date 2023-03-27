@@ -33,11 +33,6 @@ export default function TextInput({
       sx={inputStyles}
       helperText={errorMessage}
       {...register(registerName, validationField)}
-      inputProps={{
-        style: {
-          padding: '0.7rem',
-        },
-      }}
     />
   )
 }

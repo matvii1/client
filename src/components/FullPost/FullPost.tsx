@@ -9,7 +9,7 @@ import {
   Grid,
   Typography,
 } from '@mui/material'
-import { useAppSelector } from '~/store/hooks/hook'
+import { useAppSelector } from '~/store/hooks/redux'
 import { RootState } from '~/store/store'
 import { isImage } from '~/utils/isImage'
 import FullComments from '../FullComments/FullComments'

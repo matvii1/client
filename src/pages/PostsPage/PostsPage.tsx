@@ -1,11 +1,11 @@
-import { Box, Grid } from '@mui/material'
+import { Box, Grid, Typography } from '@mui/material'
 import { useEffect } from 'react'
 import { fetchPosts } from '~/App'
 import Comments from '~/components/Comments/Comments'
 import Container from '~/components/Container/Container'
 import PageTags from '~/components/PageTags/PageTags'
 import PostSection from '~/components/PostSection/PostSection'
-import { useAppDispatch, useAppSelector } from '~/store/hooks/hook'
+import { useAppDispatch, useAppSelector } from '~/store/hooks/redux'
 import { getTags } from '~/store/slices/tags-slice'
 import { PostsContainer, RightBar, RightBarBox } from './StyledPostsPage'
 
@@ -14,11 +14,16 @@ export default function PostsPage() {
   const { tags, status } = useAppSelector((state) => state.tags)
   const areTagsLoading = status === 'loading'
   const areTagsFailedToLoad = status === 'failed'
+  const { posts, status: postStatus } = useAppSelector((state) => state.posts)
 
   useEffect(() => {
     dispatch(fetchPosts())
     dispatch(getTags())
   }, [])
+
+  if (postStatus !== 'loading' && !posts?.length) {
+    return <Typography>No posts yet</Typography>
+  }
 
   return (
     <Box sx={{ mt: '2rem' }}>
