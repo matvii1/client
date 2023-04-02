@@ -1,22 +1,18 @@
-import { useAppSelector } from '~/store/hooks/redux'
-import { RootState } from '~/store/store'
+import { IPost } from '~/types/Post'
 import Post from '../Post/Post'
 import SkeletonPost from '../Post/SkeletonPost'
 import { PostsWrapper } from './StyledPostSection'
 
-export default function PostList() {
-  const { posts, status } = useAppSelector((state: RootState) => {
-    return state.posts
-  })
+type Props = {
+  posts: IPost[]
+  isLoading: boolean
+}
 
-  console.log('postList:', posts, status)
-
-  const isLoading = status === 'loading'
-
+export default function PostList({ posts, isLoading }: Props) {
   if (isLoading) {
     return (
       <PostsWrapper>
-        {new Array(6).fill(0).map((el, i) => (
+        {new Array(5).fill(0).map((el, i) => (
           <SkeletonPost key={i} />
         ))}
       </PostsWrapper>

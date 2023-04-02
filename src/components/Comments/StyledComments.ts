@@ -14,7 +14,6 @@ export const CommentsTitle = styled(Typography)(() => ({
   fontSize: '1.2rem',
 }))
 
-
 export const SingleCommentsWrap = styled(Box)(() => ({
   display: 'flex',
   alignItems: 'center',
@@ -25,3 +24,15 @@ export const StyledCommentText = styled(Typography)(() => ({
   color: grey[700],
   fontSize: '0.85rem',
 }))
+export const commentStyles = {
+  borderRadius: '0.25rem',
+  padding: '0.5rem 0 0 0.5rem',
+  transition: 'background-color 0.25s ease',
+  '&:hover': {
+    backgroundColor: grey[100],
+  },
+  '&:last-child': {
+    paddingBottom: '0.75rem',
+  },
+  cursor: 'pointer'
+}

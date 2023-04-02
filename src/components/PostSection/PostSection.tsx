@@ -1,68 +1,70 @@
 import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
-import * as React from 'react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '~/App'
+import { fetchNewPosts, fetchPopularPosts } from '~/store/slices/post-slice'
 import PostList from './PostList'
 import { TabsWrapper } from './StyledPostSection'
+import TabPanel from './TabPanel'
 
 export default function PostSection() {
-  const [value, setValue] = React.useState(0)
+  const [tab, setTab] = useState(0)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const currentTab = searchParams.get('sort') || ''
+
+  const dispatch = useAppDispatch()
+  const { status, posts } = useAppSelector((state) => state.posts)
 
   const handleChange = (
     event: React.SyntheticEvent<Element, Event>,
     newValue: number
   ) => {
-    setValue(newValue)
+    setTab(newValue)
   }
+
+  useEffect(() => {
+    if (tab === 0) {
+      setSearchParams({ sort: 'new' })
+      dispatch(fetchNewPosts())
+    }
+
+    if (tab === 1) {
+      setSearchParams({ sort: 'popular' })
+      dispatch(fetchPopularPosts())
+    }
+  }, [tab])
 
   return (
     <Box>
       <TabsWrapper>
         <Tabs
-          value={value}
+          value={tab}
           onChange={handleChange}
-          aria-label="basic tabs example">
-          <Tab label="New" {...a11yProps(0)} sx={{ textTransform: 'none' }} />
+          aria-label="basic tabs example"
+        >
+          <Tab label="New" {...muiProps(0)} sx={{ textTransform: 'none' }} />
           <Tab
             label="Popular"
-            {...a11yProps(1)}
+            {...muiProps(1)}
             sx={{ textTransform: 'none' }}
           />
         </Tabs>
       </TabsWrapper>
-      <TabPanel value={value} index={0}>
-        <PostList />
+      <TabPanel value={tab} index={0}>
+        <PostList isLoading={status === 'loading'} posts={posts} />
       </TabPanel>
-      <TabPanel value={value} index={1}>
-        <PostList />
+      <TabPanel value={tab} index={1}>
+        <PostList isLoading={status === 'loading'} posts={posts} />
       </TabPanel>
     </Box>
   )
 }
 
-type Props = {
-  children: React.ReactNode
-  index: number
-  value: number
-}
-
-function a11yProps(index: number) {
+function muiProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   }
-}
-
-function TabPanel(props: Props) {
-  const { children, value, index } = props
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}>
-      {value === index && <Box>{children}</Box>}
-    </div>
-  )
 }

@@ -6,3 +6,8 @@ export const NoAccountMessage = styled(Box)(({ theme }) => ({
   marginTop: '0.85rem',
   textAlign: 'center',
 }))
+
+export const accountIconStyles = {
+  marginTop: 4,
+  transform: 'scale(2.5)',
+}

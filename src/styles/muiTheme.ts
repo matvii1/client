@@ -29,9 +29,6 @@ export const theme = createTheme({
     },
   },
   typography: {
-    smallIcon: {
-      fontSize: '1rem',
-    },
     smallMessage: {
       fontSize: '0.8rem',
     },
@@ -62,16 +59,15 @@ export const theme = createTheme({
   },
 })
 
-
 Object.assign(theme, {
   overrides: {
-      MUIRichTextEditor: {
-          root: {
-              marginTop: 20,
-          },
-          editor: {
-              borderBottom: "1px solid gray" 
-          }
-      }
-  }
+    MUIRichTextEditor: {
+      root: {
+        marginTop: 20,
+      },
+      editor: {
+        borderBottom: '1px solid gray',
+      },
+    },
+  },
 })

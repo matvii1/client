@@ -1,28 +1,34 @@
 import { Button, Grid, Paper } from '@mui/material'
+import { useState } from 'react'
 import { Link, redirect } from 'react-router-dom'
 import Container from '~/components/Container/Container'
 import { useAppDispatch, useAppSelector } from '~/store/hooks/redux'
 import { setAuth } from '~/store/slices/auth-slice'
 import { RootState } from '~/store/store'
+import ConfirmModal from '../Modal/ConfirmModal'
 import { BoxButtons, Logo } from './StyledHeader'
 
 export default function Header() {
   const { isAuth } = useAppSelector((state: RootState) => state.auth)
+  const [isModal, setIsModal] = useState(false)
   const dispatch = useAppDispatch()
 
   function handleLogOut() {
-    console.log(123)
-    if (window.confirm('Are you sure you want to log out?')) {
-      dispatch(setAuth(false))
-      window.localStorage.removeItem('token')
-      redirect('/')
-    }
-
-    return
+    setIsModal(false)
+    dispatch(setAuth(false))
+    window.localStorage.removeItem('token')
+    redirect('/')
   }
 
   return (
     <Paper sx={{ borderRadius: 0 }}>
+      <ConfirmModal
+        text="Are you sure you want to log out?"
+        handleClose={() => setIsModal(false)}
+        handleAction={handleLogOut}
+        isOpen={isModal}
+        buttonText="Log out"
+      />
       <Container>
         <Grid
           minHeight={60}
@@ -58,7 +64,7 @@ export default function Header() {
                 <Button
                   variant="outlined"
                   size="small"
-                  onClick={() => handleLogOut()}
+                  onClick={() => setIsModal(true)}
                 >
                   Log out
                 </Button>

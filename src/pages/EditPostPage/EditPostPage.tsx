@@ -1,22 +1,75 @@
 import { LoadingButton } from '@mui/lab'
-import { Box, Button, Grid, Paper, TextField } from '@mui/material'
-import 'easymde/dist/easymde.min.css'
-import { ChangeEvent, FormEvent, useMemo, useRef, useState } from 'react'
-import { toast, Toaster } from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
-import SimpleMDE from 'react-simplemde-editor'
-import axios from '~/api/axios'
-import Container from '~/components/Container/Container'
-import GoBack from '~/components/GoBack/GoBack'
+import {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '~/App'
+import {
+  axios,
+  Box,
+  Button,
+  Container,
+  fetchOnePost,
+  GoBack,
+  Grid,
+  LoadingPage,
+  Paper,
+  SimpleMDE,
+  TextField,
+  toast,
+  Toaster,
+} from '.'
+import { ButtonWrapper } from './EditPostStyled'
 
-export default function WritePostPage() {
+export default function EditPostPage() {
   const [isLoading, setIsLoading] = useState(false)
 
   const [imageUrl, setImageUrl] = useState('')
   const [text, setText] = useState('')
   const [title, setTitle] = useState('')
   const [tags, setTags] = useState('')
+  const { postId } = useParams()
+
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const { currentPost, currentPostStatus } = useAppSelector(
+    (state) => state.posts
+  )
+
+  useEffect(() => {
+    async function fetchWrapper() {
+      if (postId) {
+        try {
+          dispatch(fetchOnePost(postId))
+        } catch (error) {
+          toast.error('Unable to load')
+        }
+      }
+    }
+
+    fetchWrapper()
+  }, [])
+
+  useEffect(() => {
+    if (currentPost) {
+      const {
+        text: postText,
+        title: postTitle,
+        tags: postTags,
+        imageUrl: postImageUrl,
+      } = currentPost!
+
+      setImageUrl(postImageUrl)
+      setTitle(postTitle)
+      setText(postText)
+      setTags(postTags.join(' '))
+    }
+  }, [currentPost])
 
   const fileRef = useRef<HTMLInputElement | null>(null)
 
@@ -63,6 +116,7 @@ export default function WritePostPage() {
 
   async function handleOnSubmit(e: FormEvent<HTMLFormElement>) {
     setIsLoading(true)
+
     try {
       e.preventDefault()
       const fields = {
@@ -73,20 +127,18 @@ export default function WritePostPage() {
       }
 
       // await wait(2, 'res') // TODO: development
-
-      const { data } = await axios.post('/posts', fields)
+      const { data } = await axios.patch(`/posts/${postId}`, fields)
 
       if (data) {
         setIsLoading(false)
-
         setImageUrl('')
         setText('')
         setTitle('')
         setTags('')
+        toast.success('Post edited! \nRedirecting...')
 
-        toast.success('Post created! \nRedirecting...')
         setTimeout(() => {
-          navigate(`/posts/${data._id}`)
+          navigate(`/posts/${postId}`)
         }, 1000)
       }
     } catch (error: any) {
@@ -101,6 +153,10 @@ export default function WritePostPage() {
 
   function handleFileClick() {
     fileRef.current?.click()
+  }
+
+  if (currentPostStatus === 'loading') {
+    return <LoadingPage />
   }
 
   return (
@@ -166,8 +222,8 @@ export default function WritePostPage() {
             />
             <TextField
               variant="standard"
-              value={tags}
               placeholder="Tags"
+              value={tags}
               onChange={handleTagsChange}
               sx={{ marginTop: '1rem' }}
             />
@@ -180,14 +236,25 @@ export default function WritePostPage() {
               options={options}
             />
 
-            <LoadingButton
-              loading={isLoading}
-              type="submit"
-              variant="contained"
-              sx={{ marginTop: '1rem' }}
-            >
-              Post
-            </LoadingButton>
+            <ButtonWrapper>
+              <LoadingButton
+                loading={isLoading}
+                type="submit"
+                variant="contained"
+              >
+                Edit
+              </LoadingButton>
+
+              <Link to="/">
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={onClickRemoveImage}
+                >
+                  Cancel
+                </Button>
+              </Link>
+            </ButtonWrapper>
           </Box>
         </form>
       </Paper>

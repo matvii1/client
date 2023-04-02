@@ -25,6 +25,7 @@ export const SingleTagWrap = styled(Box)(() => ({
   '&:hover': {
     backgroundColor: grey[100],
   },
+  cursor: 'pointer'
 }))
 
 export const StyledTagText = styled(Typography)(() => ({

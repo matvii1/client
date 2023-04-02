@@ -1,5 +1,5 @@
 import { Box, Grid, Typography } from '@mui/material'
-import { grey } from '@mui/material/colors'
+import { blue, blueGrey, grey, red } from '@mui/material/colors'
 import { styled } from '@mui/material/styles'
 
 export const TagsBox = styled(Box)(({ theme }) => ({
@@ -14,6 +14,13 @@ export const Tag = styled(Typography)(({ theme }) => ({
   ...theme.typography.smallMessage,
   color: grey[600],
   margin: 0,
+  padding: '0.1rem 0.2rem',
+  borderRadius: '0.1rem',
+  transition: 'color 0.1s ease',
+  '&:hover': {
+    color: grey[900],
+  },
+  cursor: 'pointer',
 }))
 
 export const IconsBox = styled(Grid)(({ theme }) => ({
@@ -22,25 +29,19 @@ export const IconsBox = styled(Grid)(({ theme }) => ({
   gap: '0.3rem',
 }))
 
-export const iconsStyles = {
-  display: 'flex',
-  gap: '0.5rem',
-  backgroundColor: grey[100],
-  borderRadius: '0.34rem',
-  alignItems: 'center',
-  color: grey[900],
-  position: 'absolute',
-  top: '0.85rem',
-  right: '0.85rem',
-  fontSize: '2.2rem',
-  padding: '0.5rem',
-  cursor: 'pointer',
-  transition: 'opacity 0.1s ease',
-}
-
 export const CardContentInner = styled(Box)(({ theme }) => ({
   paddingLeft: '2rem',
   maxWidth: '90%',
 }))
 
 export const ChatBox = styled(Box)(({ theme }) => ({}))
+
+export const closeIconStyles = { fontSize: '1.6rem', color: red[500] }
+export const editIconStyles = { color: blue[900] }
+export const cardHeaderAvatarStyles = {
+  fontSize: '0.8rem',
+  width: '40px',
+  height: '40px',
+  backgroundColor: blueGrey[500],
+}
+export const bottomIconStyles = { fontSize: '1rem' }

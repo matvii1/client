@@ -1,6 +1,7 @@
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded'
 import { Button, Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast, Toaster } from 'react-hot-toast'
 import { Link, useNavigate } from 'react-router-dom'
@@ -8,6 +9,7 @@ import axios from '~/api/axios'
 import PasswordInput from '~/components/Inputs/PasswordInput'
 import TextInput from '~/components/Inputs/TextInput'
 import { IFormValues } from '~/types/Form'
+import { wait } from '~/utils/wait'
 import AuthContainer from '../AuthContainers/AuthContainer'
 import AuthInnerContainer from '../AuthContainers/AuthInnerContainer'
 import {
@@ -17,18 +19,6 @@ import {
   StyledFormControl,
 } from './StyledRegister'
 
-function wait(delay: number, type: 'res' | 'rej') {
-  return new Promise((res, rej) => {
-    if (type === 'res') {
-      return setTimeout(res, delay * 1000)
-    }
-
-    if (type === 'rej') {
-      return setTimeout(rej, delay * 1000)
-    }
-  })
-}
-
 export default function RegisterPage() {
   const {
     register,
@@ -37,34 +27,39 @@ export default function RegisterPage() {
     reset,
   } = useForm<IFormValues>()
   const navigate = useNavigate()
+  const [errorMessage, setErrorMessage] = useState(
+    'Whoops.. Something went wrong'
+  )
 
   const onSubmit: SubmitHandler<IFormValues> = async (formData) => {
-    const promise = wait(1, 'res').then(() => {
-      return axios.post('/auth/register', {
-        ...formData,
-        name: formData.firstName,
+    try {
+      const promise = wait(1, 'res').then(() => {
+        return axios.post('/auth/register', {
+          ...formData,
+          name: formData.firstName,
+        })
       })
-    })
 
-    toast.promise(promise, {
-      loading: 'Loading...',
-      success: 'User has been created \nRedirecting...',
-      error: 'Whoops.. Something went wrong',
-    })
+      toast.promise(promise, {
+        loading: 'Loading...',
+        success: 'User has been created \nRedirecting...',
+        error: errorMessage,
+      })
 
-    console.log(promise)
-    const { data: res }: any = await promise
-    console.log(res)
+      const { data: res }: any = await promise
 
-    if (res.token) {
-      window.localStorage.setItem('token', res.token)
+      if (res.token) {
+        window.localStorage.setItem('token', res.token)
 
-      setTimeout(() => {
-        navigate('/login')
-      }, 2000)
+        setTimeout(() => {
+          navigate('/login')
+        }, 2000)
+      }
+
+      reset()
+    } catch (error: any) {
+      setErrorMessage(error.response.data.message)
     }
-
-    reset()
   }
 
   return (

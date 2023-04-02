@@ -5,8 +5,9 @@ export interface IPost {
   viewsCount: number
   text: string
   tags: Array<number | string>
-  comments: number
   _id: number
   userId: User
   createdAt: string
+  imageUrl: string
+  commentsCount: number
 }

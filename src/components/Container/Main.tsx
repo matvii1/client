@@ -9,10 +9,12 @@ export default function Main({ children }: Props) {
   return (
     <Box
       sx={{
+        display: 'flex',
+        flexDirection: 'column',
         flexGrow: 1,
       }}
-      component='main'
-      >
+      component="main"
+    >
       {children}
     </Box>
   )

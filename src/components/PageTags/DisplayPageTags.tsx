@@ -27,9 +27,7 @@ export default function DisplayPageTags({
           })}
         </>
       ) : (
-        <Typography sx={{ color: grey[600] }}>
-          There are no tags yet
-        </Typography>
+        <Typography sx={{ color: grey[600] }}>There are no tags yet</Typography>
       )}
     </>
   )

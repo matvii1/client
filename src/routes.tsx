@@ -1,4 +1,5 @@
 import { Navigate, useRoutes } from 'react-router-dom'
+import EditPostPage from './pages/EditPostPage/EditPostPage'
 import FullPostPage from './pages/FullPostPage/FullPostPage'
 import LoginPage from './pages/LoginPage/LoginPage'
 import PostsPage from './pages/PostsPage/PostsPage'
@@ -14,12 +15,11 @@ enum Roles {
 
 export function Routes() {
   const { isAuth } = useAppSelector((state: RootState) => state.auth)
-  const homeNavigate = isAuth ? '/posts' : '/login'
 
   const availableRoutes = [
     {
       path: '/',
-      element: <Navigate to={homeNavigate} />,
+      element: <PostsPage />,
       access: [Roles.User, Roles.Guest],
     },
     {
@@ -30,6 +30,11 @@ export function Routes() {
     {
       path: '/posts/:postId',
       element: <FullPostPage />,
+      access: [Roles.User, Roles.Guest],
+    },
+    {
+      path: '/posts/:postId/edit',
+      element: <EditPostPage />,
       access: [Roles.User],
     },
     {
