@@ -61,7 +61,7 @@ export default function LoginPage() {
   }
 
   if (isAuth) {
-    return <Navigate to="/" />
+    return <Navigate to="/posts" />
   }
 
   return (

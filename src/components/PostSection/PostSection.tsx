@@ -12,7 +12,6 @@ import TabPanel from './TabPanel'
 export default function PostSection() {
   const [tab, setTab] = useState(0)
   const [searchParams, setSearchParams] = useSearchParams()
-  const currentTab = searchParams.get('sort') || ''
 
   const dispatch = useAppDispatch()
   const { status, posts } = useAppSelector((state) => state.posts)

@@ -1,6 +1,6 @@
 import { Button, Grid, Paper } from '@mui/material'
 import { useState } from 'react'
-import { Link, redirect } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Container from '~/components/Container/Container'
 import { useAppDispatch, useAppSelector } from '~/store/hooks/redux'
 import { setAuth } from '~/store/slices/auth-slice'
@@ -12,12 +12,13 @@ export default function Header() {
   const { isAuth } = useAppSelector((state: RootState) => state.auth)
   const [isModal, setIsModal] = useState(false)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   function handleLogOut() {
     setIsModal(false)
     dispatch(setAuth(false))
     window.localStorage.removeItem('token')
-    redirect('/')
+    navigate('/login')
   }
 
   return (
