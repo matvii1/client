@@ -13,7 +13,7 @@ enum Roles {
   User = 'USER',
 }
 
-export function Routes() {
+export function CustomRoutes() {
   const { isAuth } = useAppSelector((state: RootState) => state.auth)
 
   const availableRoutes = [

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from '~/api/axios'
+import { CustomRoutes } from '~/CustomRoutes'
 import LoadingPage from '~/pages/LoadingPage/LoadingPage'
-import { Routes } from '~/Routes'
 import { setAuth, setUserData } from '~/store/slices/auth-slice'
 import { RootState } from '~/store/store'
 import {
@@ -52,7 +52,7 @@ export default function App() {
       ) : (
         <>
           <Header />
-          <Main>{isFailed ? <FailedToLoad /> : <Routes />}</Main>
+          <Main>{isFailed ? <FailedToLoad /> : <CustomRoutes />}</Main>
           <Footer />
         </>
       )}
