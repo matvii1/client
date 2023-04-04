@@ -72,8 +72,6 @@ export default function WritePostPage() {
         imageUrl,
       }
 
-      // await wait(2, 'res') // TODO: development
-
       const { data } = await axios.post('/posts', fields)
 
       if (data) {

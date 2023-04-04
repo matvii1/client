@@ -12,7 +12,6 @@ import TextInput from '~/components/Inputs/TextInput'
 import { useAppDispatch, useAppSelector } from '~/store/hooks/redux'
 import { setAuth } from '~/store/slices/auth-slice'
 import { IFormValues } from '~/types/Form'
-import { wait } from '~/utils/wait'
 import AuthContainer from '../AuthContainers/AuthContainer'
 import AuthInnerContainer from '../AuthContainers/AuthInnerContainer'
 import {
@@ -38,10 +37,7 @@ export default function LoginPage() {
   const onSubmit: SubmitHandler<IFormValues> = async (formData) => {
     setIsLoginLoading(true)
     try {
-      const promise = wait(2, 'res').then(() => {
-        return axios.post('/auth/login', formData)
-      })
-
+      const promise = axios.post('/auth/login', formData)
       const { data: res } = await promise
 
       if (res.token) {

@@ -9,7 +9,6 @@ import axios from '~/api/axios'
 import PasswordInput from '~/components/Inputs/PasswordInput'
 import TextInput from '~/components/Inputs/TextInput'
 import { IFormValues } from '~/types/Form'
-import { wait } from '~/utils/wait'
 import AuthContainer from '../AuthContainers/AuthContainer'
 import AuthInnerContainer from '../AuthContainers/AuthInnerContainer'
 import {
@@ -33,11 +32,9 @@ export default function RegisterPage() {
 
   const onSubmit: SubmitHandler<IFormValues> = async (formData) => {
     try {
-      const promise = wait(1, 'res').then(() => {
-        return axios.post('/auth/register', {
-          ...formData,
-          name: formData.firstName,
-        })
+      const promise = axios.post('/auth/register', {
+        ...formData,
+        name: formData.firstName,
       })
 
       toast.promise(promise, {

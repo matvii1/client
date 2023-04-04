@@ -126,7 +126,6 @@ export default function EditPostPage() {
         imageUrl,
       }
 
-      // await wait(2, 'res') // TODO: development
       const { data } = await axios.patch(`/posts/${postId}`, fields)
 
       if (data) {

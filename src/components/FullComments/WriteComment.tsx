@@ -6,7 +6,6 @@ import axios from '~/api/axios'
 import { useAppDispatch, useAppSelector } from '~/App'
 import { getPostComments } from '~/store/slices/comment-slice'
 import { getAvatarPreview } from '~/utils/getAvatarPreview'
-import { wait } from '~/utils/wait'
 import { SingleCommentsWrap } from '../Comments/StyledComments'
 import {
   SendButton,
@@ -33,7 +32,6 @@ export default function WriteComment() {
           text: comment,
         }
 
-        await wait(0.5, 'res')
         const { data } = await axios.post(`/comments/${id}`, field)
 
         if (data) {
