@@ -1,11 +1,11 @@
 import { Navigate, useRoutes } from 'react-router-dom'
+import { useAppSelector } from './hooks/redux'
 import EditPostPage from './pages/EditPostPage/EditPostPage'
 import FullPostPage from './pages/FullPostPage/FullPostPage'
 import LoginPage from './pages/LoginPage/LoginPage'
 import PostsPage from './pages/PostsPage/PostsPage'
 import RegisterPage from './pages/RegisterPage/RegisterPage'
 import WritePostPage from './pages/WritePostPage/WritePostPage'
-import { useAppSelector } from './store/hooks/redux'
 import { RootState } from './store/store'
 
 enum Roles {

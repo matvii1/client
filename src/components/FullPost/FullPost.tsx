@@ -1,4 +1,4 @@
-import { useAppSelector } from '~/store/hooks/redux'
+import { useAppSelector } from '~/hooks/redux'
 import { RootState } from '~/store/store'
 import FullComments from '../FullComments/FullComments'
 import FullPostCard from './FullPostCard'
