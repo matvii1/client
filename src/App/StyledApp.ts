@@ -19,6 +19,7 @@ export const StyledErrorContainer = styled(Box)(({ theme }) => ({
   [theme.breakpoints.between('xs', 'md')]: {
     padding: '0 1rem',
   },
+
   [theme.breakpoints.up('md')]: {
     width: '80%',
     maxWidth: 900,

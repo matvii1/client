@@ -69,6 +69,7 @@ export default function Post({ post }: Props) {
   function handleOpenModal() {
     setOpenModal(true)
   }
+  
   function handleCloseModal() {
     setOpenModal(false)
   }
